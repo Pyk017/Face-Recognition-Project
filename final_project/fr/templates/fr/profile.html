@@ -1,4 +1,167 @@
+{% load static %}
 {% load crispy_forms_tags %}
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons">
+    <link rel="stylesheet" href="https://rawgit.com/creativetimofficial/material-kit/master/assets/css/material-kit.css">
+    <link href="{% static 'fr/profile.css' %}" rel="stylesheet" type="text/css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+    <script src="{% static 'fr/profile.js' %}"></script>
+</head>
+
+
+<body class="profile-page">
+    <!-- Navbar -->
+    <nav class="navbar navbar-color-on-scroll navbar-transparent    fixed-top  navbar-expand-lg "  color-on-scroll="100"  id="sectionsNav">
+        <div class="container">
+            <div class="navbar-translate">
+                <a class="navbar-brand" href="{% url 'profile' %}">FacePass</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <!-- Navbar Items -->
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'edit_profile' %}">
+                          Edit Profile
+                      </a>
+                  </li>
+      				<li class="nav-item">
+                        <a class="nav-link" href="{% url 'edit_password' %}">
+                            Edit Password
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">
+                            Logout
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    
+
+    <div class="page-header header-filter" data-parallax="true" style="background-image:linear-gradient(to bottom, rgba(92, 77, 66, 0.7) 0%, rgba(92, 77, 66, 0.7) 100%), url('/static/fr/bg.jpg'); "></div>
+    <div class="main main-raised">
+		<div class="profile-content">
+            <div class="container">
+                <div class="row">
+	                <div class="col-md-6 ml-auto mr-auto">
+        	           <div class="profile">
+
+                        {% if user.profile.image %}
+                        <div class="avatar">
+                            <img src="{{ user.profile.image.url }}" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                        </div>
+                        {% endif %}
+
+                          <div class="name">
+	                            <h2 class="title">{{user.username}}</h2>
+                                <h4 class="text-muted">{{user.email}}</h4>
+	                        </div>
+	                    </div>
+    	            </div>
+                </div>
+                <div>
+                    {% if messages %}
+                    {% for m in messages%}
+                    <div class="alert alert-{{ m.tags }}">
+                        {{m}}
+                    </div>
+                    {%endfor%}
+                    {%endif%}
+                </div>
+
+
+                <div class="d-flex justify-content-center">
+                              <h5 class="title">Stored Passwords</h5>
+                </div>
+
+				<div class="row">
+					<div class="col-md-6 ml-auto mr-auto">
+            <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Handle</th>
+      <th scope="col">UserID</th>
+      <th scope="col">Password</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td href = " ">FaceBook</td>
+      <td>Mark</td>
+      <td>mark123</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td href = " ">InstaGram</td>
+      <td>stylish.mark</td>
+      <td>markisstylish123</td>
+    </tr>
+  </tbody>
+</table>
+    	    	</div>
+            </div>
+            </div>
+        </div>
+	</div>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- {% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,4 +218,4 @@
     
 </body>
 
-</html>
+</html> -->
