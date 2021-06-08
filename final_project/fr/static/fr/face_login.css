@@ -1,0 +1,169 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2:wght@400;500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Baloo Tammudu 2", cursive;
+}
+
+body {
+  padding-top: 2rem;
+  background: linear-gradient(
+      to bottom,
+      rgba(92, 77, 66, 0.9) 0%,
+      rgba(92, 77, 66, 0.9) 100%
+    ),
+    url("bg-masthead.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
+  min-height: 100vh;
+  min-width: 700px;
+}
+
+.logo {
+  padding-left: 8rem;
+  font-weight: bolder;
+}
+
+.navbar-brand {
+  color: #f4623a;
+  transition: 0.5s;
+}
+
+img {
+  float: right;
+  margin-right: 20%;
+}
+
+span {
+  float: right;
+  margin-right: 15%;
+  color: #f4623a;
+  font-weight: bolder;
+}
+span a {
+  text-decoration: none;
+  color: #f4632a;
+  transition: 0.5s;
+}
+
+.container {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#custom {
+  position: relative;
+  display: block;
+  padding: 15px 30px;
+  text-decoration: none;
+  color: #f4623a;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 20px;
+  transition: 0.5s;
+  overflow: hidden;
+  font-weight: bolder;
+  -webkit-box-reflect: below 10px
+    linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  cursor: pointer;
+}
+
+#custom:hover {
+  background: #f4623a;
+  color: #204275;
+  box-shadow: 0 0 50px #f4623a;
+  transition-delay: 0.5s;
+}
+
+#custom:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid #f4623a;
+  border-left: 2px solid #f4623a;
+  transition: 0.5s;
+  transition-delay: 0.5s;
+}
+
+#custom:hover:before {
+  width: 100%;
+  height: 100%;
+  transition-delay: 0s;
+}
+
+#custom:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid #f4623a;
+  border-right: 2px solid #f4623a;
+  transition: 0.5s;
+  transition-delay: 0.5s;
+}
+
+#custom:hover:after {
+  width: 100%;
+  height: 100%;
+  transition-delay: 0s;
+}
+
+#loader {
+  display: none;
+  margin-top: 20%;
+  margin-left: 40%;
+  border: 5px solid #f4623a;
+  border-radius: 50%;
+  border-top: 5px solid #204275;
+  border-bottom: 5px solid #204275;
+  width: 70px;
+  height: 70px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+  transition: 0.5s;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s 2s, opacity 2s linear;
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 1s, opacity 2s linear;
+}
+
+.message {
+  padding-top: 30px;
+}

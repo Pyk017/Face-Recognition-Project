@@ -1,0 +1,115 @@
+<!-- <h1>Welcome {{ user|title }}</h1>
+<form method="POST">
+  {% csrf_token %} {{ u_form.as_p }}
+  <input type="submit" value="Submit" />
+</form> -->
+{% load static%}
+
+<head>
+  <title>Detect Face - {{ profile.user|title }}</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+    crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href="{% static 'fr/detect-face.css' %}" />
+</head>
+
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <span class="navbar-brand"><b>Welcome {{ profile.user|title }}</b></span>
+    <span class="mid-heading">Let us Capture your Face</span>
+    <form class="d-flex">
+      <a href="{% url 'fr-home' %}" class="btn btn-outline-info">Home</a>
+      <a href="{% url 'register' %}" class="btn btn-outline-success">
+        SignUp
+      </a>
+    </form>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="mx-auto mt-2" id="wind">
+    <video id="webcam" autoplay playsinline width="640" height="480"></video>
+    <canvas id="canvas" class="d-none"></canvas>
+    <audio
+      id="snapSound"
+      src="{% static 'fr/snap.wav' %}"
+      preload="auto"
+    ></audio>
+  </div>
+</div>
+
+<!-- buttons -->
+<div class="container buttons">
+  <div class="btn success">
+    <button
+      type="button"
+      class="btn btn-outline-success btn-lg"
+      id="startButton"
+      onclick="startButton()"
+    >
+      Start
+    </button>
+  </div>
+  <div class="btn end">
+    <button
+      type="button"
+      class="btn btn-outline-danger btn-lg"
+      id="endButton"
+      onclick="resetting()"
+    >
+      Reset
+    </button>
+  </div>
+  <div class="btn snap">
+    <button
+      type="button"
+      class="btn btn-outline-primary btn-lg"
+      id="clickImage"
+      onclick="clickImage()"
+    >
+      Click Image
+    </button>
+  </div>
+</div>
+
+<!-- Heading  -->
+<div class="container mt-2 mb-2">
+  <h3>Captured Images <sub>(Please capture 5 images)</sub></h3>
+</div>
+
+<!-- Captures image area -->
+<div class="container justify-content-center">
+  <div class="row" id="row"></div>
+</div>
+
+<!-- submit button -->
+<div class="container justify-content-center mt-3">
+  <form method="POST">
+    {% csrf_token %}
+    <button
+      id="submit"
+      type="submit"
+      class="btn btn-success btn-lg"
+      onlick="endButton"
+      disabled
+    >
+      Submit
+    </button>
+  </form>
+</div>
+
+<!-- scripts  -->
+
+<script
+  type="text/javascript"
+  src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"
+></script>
+<script type="text/javascript" src="{% static 'fr/detect-face.js' %}"></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+  crossorigin="anonymous"
+></script>

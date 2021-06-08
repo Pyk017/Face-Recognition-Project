@@ -1,0 +1,58 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        {% if messages %}
+        {% for m in messages%}
+        <div class="alert alert-{{ m.tags }}">
+            {{m}}
+        </div>
+        {%endfor%}
+        {%endif%}
+    </div>
+    <div class="content-section">
+        <div class="media">
+            {% if user.profile.image %}
+            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+            {% endif %}
+
+            <div class="media-body">
+                <h2 class="account-heading">{{user.username}}</h2>
+                <p class="text-secondary">{{user.email}}</p>
+            </div>
+        </div>
+        <!-- FORM HERE -->
+        
+
+            <div class="form-group text-center justify-content-center">
+                <a href="{% url 'edit_profile' %}">
+                    <input type="submit" value="edit profile" class="btn login_btn" style="align-items: center;">
+                </a>
+
+                <a href="{% url 'edit_password' %}">
+                    <input type="submit" value="edit password" class="btn login_btn" style="align-items: center;">
+                </a>
+
+                <a href="{% url 'logout' %}">
+                    <input type="submit" value="logout" class="btn login_btn" style="align-items: center;">
+                </a>
+                
+            </div>
+        
+
+    </div>
+
+    <p>this is currently being used as a profile page</p>
+    
+</body>
+
+</html>

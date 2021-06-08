@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'fr/register.css' %}" />
+  </head>
+
+  <body style="text-align: center">
+    <div class="container">
+      <div class="d-flex justify-content-center h-100">
+        <div class="card">
+          <div class="card-body">
+            <div
+              class="d-flex justify-content-center links mb-4"
+              style="font-size: 20px; text-align: center"
+            >
+              <h4>you have been logged out</h4>
+              <small class="text-muted text-center">
+                <a href="{% url 'face-login'%}">Login Again</a>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
