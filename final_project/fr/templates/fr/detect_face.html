@@ -29,6 +29,12 @@
   </div>
 </nav>
 
+<div>
+  {% if messages %} {% for m in messages%}
+  <div class="alert alert-{{ m.tags }}">{{m}}</div>
+  {%endfor%} {%endif%}
+</div>
+
 <div class="container">
   <div class="mx-auto mt-2" id="wind">
     <video id="webcam" autoplay playsinline width="640" height="480"></video>

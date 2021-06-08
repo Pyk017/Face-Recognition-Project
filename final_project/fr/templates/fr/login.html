@@ -27,16 +27,7 @@
                     <div class="d-flex justify-content-center links mb-4" style="font-size: 30px;">
                         Login
                     </div>
-                    <form method="POST">
-                        <div>
-                            {% if messages %}
-                            {% for m in messages%}
-                            <div class="alert alert-{{ m.tags }}">
-                                {{m}}
-                            </div>
-                            {%endfor%}
-                            {%endif%}
-                        </div>
+                    <form method="POST"
                         {% csrf_token%}
                         {{ form|crispy }}
                         <!-- <div class="input-group form-group mb-4">

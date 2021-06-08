@@ -12,16 +12,27 @@ from django.views.generic.edit import UpdateView
 from .models import Profile
 from django.urls import reverse_lazy
 
+
+# Algorithms
 from .algorithm import FaceRecognition
+from .Algorythm import Capture, Recognize
+
+
 
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import User
 
-facerecognition = FaceRecognition()
+capture = Capture()
 
 def addFace(face_id):
-    facerecognition.faceDetect(face_id)
-    facerecognition.trainFace()
+    result = capture.takePhotos(face_id)
+    # print(result)
+    if not result:
+        capture.deleteTheDirectory()
+        return 'Please Take the photos Again!'
+    else:
+        capture.invokeTraining()
     return redirect('login')
 
 
@@ -31,8 +42,11 @@ def test(request):
         'profile': pro
     }    
     if request.method=="POST":
-        addFace(pro.id)
-        messages.success(request, f'PROFILE UPDATED')
+        message = addFace(pro.user.username)
+        if type(message) == str:
+            messages.danger(request, message)
+        else:    
+            messages.success(request, f'PROFILE UPDATED')
 
         return redirect('login')
     else:
@@ -44,12 +58,19 @@ def test(request):
     
 
 def face_recog(request):
-    face_id = facerecognition.recognizeFace()
-    print(face_id)
-    profile = Profile.objects.filter(id=face_id).first()
-    user = profile.user
-    if user:
-        login(request, user)
+    reckon = Recognize()
+    face_name = reckon.recognize()
+    print(face_name)
+    
+    if len(face_name) == 0:
+        return False
+
+    # profile = Profile.objects.filter(user=Us).first()
+    _user = User.objects.filter(username=face_name).first()
+    # user = profile.user
+    print('user', _user)
+    if _user:
+        login(request, _user)
         return True
     return False
 
