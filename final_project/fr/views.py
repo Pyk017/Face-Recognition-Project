@@ -80,7 +80,7 @@ def facelogin(request):
     if face_recog(request):
         return redirect('profile')
     
-    return redirect('login')
+    return redirect('register')
 
 
 def faceLogin(request):
