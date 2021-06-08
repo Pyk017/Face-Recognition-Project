@@ -27,7 +27,7 @@
                     <div class="d-flex justify-content-center links mb-4" style="font-size: 30px;">
                         Login
                     </div>
-                    <form method="POST"
+                    <form method="POST">
                         {% csrf_token%}
                         {{ form|crispy }}
                         <!-- <div class="input-group form-group mb-4">

@@ -44,7 +44,8 @@ def test(request):
     if request.method=="POST":
         message = addFace(pro.user.username)
         if type(message) == str:
-            messages.danger(request, message)
+            #messages.danger(request, message)
+            pass
         else:    
             messages.success(request, f'PROFILE UPDATED')
 
