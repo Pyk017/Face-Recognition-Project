@@ -30,12 +30,20 @@
 </nav>
 
 <div class="container">
-  <div>
+  <!-- <div style="position: relative">
     {% if messages %} {% for message in messages%}
-    <div class="alert alert-{{ message.tags }}">{{message}}</div>
+    <div class="alert alert-danger">{{message}}</div>
     {%endfor%} {%endif%}
-  </div>
+  </div> -->
   <div class="mx-auto mt-2" id="wind">
+    <div>
+      {% if messages %} {% for message in messages%}
+      <div class="alert alert-danger" role="alert">
+        {{ message }}{{ message.tag}}
+        <a href="#" class="alert-link pl-2" id="reload">Click to Reload</a>.
+      </div>
+      {%endfor%} {%endif%}
+    </div>
     <video id="webcam" autoplay playsinline width="640" height="480"></video>
     <canvas id="canvas" class="d-none"></canvas>
     <audio
