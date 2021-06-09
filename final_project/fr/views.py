@@ -8,7 +8,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, update_session_auth_hash
 
 from .models import Profile
+from .models import userdata
+
 from django.urls import reverse_lazy
+
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
 # Algorithms
@@ -158,4 +163,43 @@ def edit_password(request):
     })
 
 
+# Password Mangaer Class Views
 
+class DataDetailView(LoginRequiredMixin,UserPassesTestMixin,DetailView):
+    model=userdata
+    def test_func(self):
+        data=self.get_object()
+        if self.request.user==data.author:
+            return True
+        return False
+
+class DataCreateView(LoginRequiredMixin,CreateView):
+    model=userdata
+    fields=['title', 'userid', 'password', 'link']
+    success_url = '/profile'
+    context_object_name = 'data'
+    def form_valid(self,form):
+        form.instance.author=self.request.user
+        return super().form_valid(form)
+
+class DataUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
+    model=userdata
+    fields=['title', 'userid', 'password', 'link']
+    success_url = '/profile'
+    def form_valid(self,form):
+        form.instance.author=self.request.user
+        return super().form_valid(form)
+    def test_func(self):
+        data=self.get_object()
+        if self.request.user==data.author:
+            return True
+        return False
+
+class DataDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
+    model=userdata
+    success_url=('/profile')
+    def test_func(self):
+        data=self.get_object()
+        if self.request.user==data.author:
+            return True
+        return False
