@@ -44,6 +44,11 @@
             >
               Sign Up
             </div>
+            <div>
+              {% if messages %} {% for message in messages %}
+              <div class="alert alert-danger" role="alert">{{ message }}</div>
+              {%endfor%} {%endif%}
+            </div>
             <form method="POST">
               {% csrf_token %} {{form|crispy}}
 

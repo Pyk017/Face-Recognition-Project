@@ -5,12 +5,15 @@ from .forms import LoginForm, MyForm,UserUpdateForm,ProfileUpdateForm, MyPasswor
 from django.contrib import messages
 # from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, update_session_auth_hash
 
-from django.views.generic.edit import UpdateView
 from .models import Profile
+from .models import userdata
+
 from django.urls import reverse_lazy
+
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
 # Algorithms
@@ -18,8 +21,6 @@ from .algorithm import FaceRecognition
 from .Algorythm import Capture, Recognize
 
 
-
-from django.contrib.auth.views import LoginView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 
@@ -29,12 +30,12 @@ reckon = Recognize()
 def addFace(request, face_id):
     result = capture.takePhotos(face_id)
     if not result:
+        print('result :- ', result)
         capture.deleteTheDirectory()
         return 'Please Take the photos Again!'
     else:
-        messages.success(request, "Please Wait! while we capturing your face.")
         capture.invokeTraining()
-    return redirect('login')
+        return True 
 
 
 def test(request):
@@ -45,11 +46,15 @@ def test(request):
     if request.method=="POST":
         message = addFace(request, pro.user.username)
         if type(message) == str:
+<<<<<<< HEAD
             #messages.danger(request, message)
             pass
+=======
+            messages.error(request, message)
+            return redirect('detect-face')
+>>>>>>> 467b2c77b8f28e9c4a9dcd9eb00602b965bce212
         else:    
-            messages.success(request, f'PROFILE UPDATED')
-
+            messages.success(request, f'PROFILE CREATED!')
         return redirect('login')
     else:
         u_form=DescriptionUpdateForm(request.POST)
@@ -66,7 +71,6 @@ def face_recog(request):
     if len(face_name) == 0:
         return False
 
-    # profile = Profile.objects.filter(user=Us).first()
     _user = User.objects.filter(username=face_name).first()
     # user = profile.user
     print('user', _user)
@@ -79,8 +83,10 @@ def face_recog(request):
 def facelogin(request):
     
     if face_recog(request):
+        print('matched')
         return redirect('profile')
     
+    messages.warning(request, f'You are not an Authorised Person. SignIn First.')
     return redirect('register')
 
 
@@ -99,7 +105,7 @@ def register(request):
             user = form.save()
             username=form.cleaned_data.get("username")
             print(username, user.id)
-            messages.success(request, f'{username}: your account has been created, you can now login')
+            # messages.success(request, f'{username}: your account has been created, you can now login')
             # return render(request, "fr/detect_face.html", {'user':  username})
             return redirect('detect-face', permanent=True)
 
@@ -162,4 +168,43 @@ def edit_password(request):
     })
 
 
+# Password Mangaer Class Views
 
+class DataDetailView(LoginRequiredMixin,UserPassesTestMixin,DetailView):
+    model=userdata
+    def test_func(self):
+        data=self.get_object()
+        if self.request.user==data.author:
+            return True
+        return False
+
+class DataCreateView(LoginRequiredMixin,CreateView):
+    model=userdata
+    fields=['title', 'userid', 'password', 'link']
+    success_url = '/profile'
+    context_object_name = 'data'
+    def form_valid(self,form):
+        form.instance.author=self.request.user
+        return super().form_valid(form)
+
+class DataUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
+    model=userdata
+    fields=['title', 'userid', 'password', 'link']
+    success_url = '/profile'
+    def form_valid(self,form):
+        form.instance.author=self.request.user
+        return super().form_valid(form)
+    def test_func(self):
+        data=self.get_object()
+        if self.request.user==data.author:
+            return True
+        return False
+
+class DataDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
+    model=userdata
+    success_url=('/profile')
+    def test_func(self):
+        data=self.get_object()
+        if self.request.user==data.author:
+            return True
+        return False

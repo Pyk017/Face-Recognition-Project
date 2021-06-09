@@ -23,6 +23,8 @@ from fr.forms import FaceLoginForm, LoginForm
 from django.conf import settings
 from django.conf.urls.static import static
 from fr.views import FaceLoginForm
+from fr.views import DataDetailView, DataCreateView, DataUpdateView, DataDeleteView
+
 # from fr.views import ProfileView
 
 # print(ProfileView.model)
@@ -39,6 +41,11 @@ urlpatterns = [
     path('face_login/', fr_views.faceLogin, name="face-login"),
     path('detect-face/', fr_views.test, name="detect-face"),
 
+
+    path('data/<int:pk>/', DataDetailView.as_view(), name="data-detail"),
+    path('data/create/', DataCreateView.as_view(), name="data-create"),
+    path('data/<int:pk>/update', DataUpdateView.as_view(), name="data-update"),
+    path('data/<int:pk>/delete', DataDeleteView.as_view(), name="data-delete"),
 
     # path(
     #     'edit_password/',

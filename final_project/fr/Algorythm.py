@@ -66,7 +66,8 @@ class Training:
             for file in files:
                 if file.endswith('.jpg') or file.endswith('.png'):
                     img_path = path.join(root, file)
-                    label = path.basename(root).replace(' ', '-').lower()
+                    label = path.basename(root).replace(' ', '-')
+                    print('LABEL :- ', label)
                     if label not in label_ids:
                         label_ids[label] = current_id
                         current_id += 1
@@ -83,8 +84,8 @@ class Training:
 
         # Make directory with labels doesn't exist make directory and file with labels
         # print(path.exists(str(BASE_DIR) + 'labels\\'))
-        if not path.exists(str(BASE_DIR) + 'labels\\'):
-            makedirs('labels\\')
+        # if not path.exists(str(BASE_DIR) + 'labels\\'):
+        #     makedirs('labels\\')
         with open(str(BASE_DIR) + '\\labels\\face-labels.pickle', 'wb') as file:
             pickle.dump(label_ids, file)
 
@@ -111,7 +112,8 @@ class Capture(Training, Recognize):
         # print('Enter username: ', end='')
         self.directory = ''
         self.username = self.directory
-        self.currDirectory = getcwd()
+        self.currDirectory = getcwd() + '\\data'
+        print('Current-working directroy', self.currDirectory)
         # if not path.exists(str(BASE_DIR) + '\\data\\' + str(self.directory.lower())):
         #     makedirs(str(BASE_DIR) + '\\data\\' + str(self.directory.lower()))
             
@@ -130,8 +132,10 @@ class Capture(Training, Recognize):
     def deleteTheDirectory(self):
         flag = False
         for dirpath, dirnames, filenames in walk(self.currDirectory):
+            print('dirnames', dirnames)
             for x in dirnames:
-                if x == self.username:
+                print('x', x, 'usernmae', self.username)
+                if x == self.username.lower():
                     result = dirpath
                     flag = True
                     break
@@ -140,7 +144,7 @@ class Capture(Training, Recognize):
         #print(result)
 
         for f in scandir(result):
-            if f.is_dir() and f.name == self.username:
+            if f.is_dir() and f.name == self.username.lower():
                 final = f.path
                 break
         
@@ -158,8 +162,8 @@ class Capture(Training, Recognize):
         self.directory = data
         self.username = self.directory
 
-        if not path.exists(str(BASE_DIR) + '\\data\\' + str(self.directory.lower())):
-            makedirs(str(BASE_DIR) + '\\data\\' + str(self.directory.lower()))
+        if not path.exists(str(BASE_DIR) + '\\data\\' + str(self.directory)):
+            makedirs(str(BASE_DIR) + '\\data\\' + str(self.directory))
 
         cap = cv2.VideoCapture(0)
         count = 0
@@ -172,7 +176,7 @@ class Capture(Training, Recognize):
                 face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
 
                 # If face was detected save region of interest in user directory
-                file_name_path = str(BASE_DIR) + '\\data\\'+str(self.directory.lower())+'\\'+str(count)+'.jpg'
+                file_name_path = str(BASE_DIR) + '\\data\\'+str(self.directory)+'\\'+str(count)+'.jpg'
                 # str(BASE_DIR) +'\\fr\\dataset\\User.' + str(face_id) + '.' + str(count) + ".jpg"
                 print(file_name_path)
                 res = cv2.imwrite(file_name_path, face)
@@ -194,10 +198,12 @@ class Capture(Training, Recognize):
         #print('Collecting samples complete!')
         #print(count)
         # if images without face are <= 5 out of total 15 images train the data else 
-        if not_found <= 5:
-            return True
-        else:
-            return False
+        # print('not found', not_found, 'count', count)
+        # if not_found <= 5:
+        #     return True
+        # else:
+        #     return False
+        return True
 
 
 

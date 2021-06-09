@@ -86,3 +86,7 @@ function resetting() {
   document.getElementById("endButton").disabled = true;
   document.getElementById("clickImage").disabled = true;
 }
+
+document.getElementById("reload").addEventListener("click", () => {
+  window.location.reload();
+});
