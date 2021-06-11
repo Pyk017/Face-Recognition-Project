@@ -67,7 +67,7 @@ class Training:
                 if file.endswith('.jpg') or file.endswith('.png'):
                     img_path = path.join(root, file)
                     label = path.basename(root).replace(' ', '-')
-                    print('LABEL :- ', label)
+                    # print('LABEL :- ',s label)
                     if label not in label_ids:
                         label_ids[label] = current_id
                         current_id += 1
@@ -121,8 +121,8 @@ class Capture(Training, Recognize):
     
     def face_extractor(self, cap_frame):
         """Function detect face and return region of interest"""
-        gray_frame = cv2.cvtColor(cap_frame, cv2.COLOR_BGR2GRAY)
-        cap_face = self.face_classifier.detectMultiScale(gray_frame, scaleFactor=1.3, minNeighbors=5)
+        gray_frame = cv2.cvtColor(cap_frame, cv2.COLOR_BGR2GRAY)  # cv2.cvtColor()  method is used to convert an image from one color space to another
+        cap_face = self.face_classifier.detectMultiScale(gray_frame, scaleFactor=1.3, minNeighbors=5)  # Detects objects of different sizes in the input image. The detected objects are returned as a list of rectangles.
 
         for (x, y, w, h) in cap_face:
             roi = cap_frame[y:y + h, x:x + w]

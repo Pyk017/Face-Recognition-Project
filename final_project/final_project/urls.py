@@ -19,15 +19,18 @@ from django.conf import settings
 from django.conf.urls.static import static
 from fr import views as fr_views
 from django.contrib.auth import views as auth_views
-from fr.forms import FaceLoginForm, LoginForm
+from fr.forms import LoginForm
 from django.conf import settings
 from django.conf.urls.static import static
-from fr.views import FaceLoginForm
 from fr.views import DataDetailView, DataCreateView, DataUpdateView, DataDeleteView
 
-# from fr.views import ProfileView
+from Passwords.views import (   PasswordCreateView, 
+                                PasswordDetailView, 
+                                PasswordListView, 
+                                PasswordUpdateView,
+                                PasswordDeleteView,
+                            )
 
-# print(ProfileView.model)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -42,10 +45,23 @@ urlpatterns = [
     path('detect-face/', fr_views.test, name="detect-face"),
 
 
+
+
     path('data/<int:pk>/', DataDetailView.as_view(), name="data-detail"),
     path('data/create/', DataCreateView.as_view(), name="data-create"),
     path('data/<int:pk>/update', DataUpdateView.as_view(), name="data-update"),
     path('data/<int:pk>/delete', DataDeleteView.as_view(), name="data-delete"),
+
+
+
+    # Password Application urls
+
+    path('password-manager/', PasswordListView.as_view(), name='passwords-list'),
+    path('password-manager/<int:pk>/', PasswordDetailView.as_view(), name='password-detail'),
+    path('password-manager/add-new-password/', PasswordCreateView.as_view(), name='add-new-password'),
+    path('password-manager/<int:pk>/update-password/', PasswordUpdateView.as_view(), name='password-update'),
+    path('password-manager/<int:pk>/delete-password', PasswordDeleteView.as_view(), name="password-delete"),
+
 
     # path(
     #     'edit_password/',

@@ -79,6 +79,7 @@ def facelogin(request):
     
     if face_recog(request):
         print('matched')
+        # return redirect('profile')
         return redirect('profile')
     
     messages.warning(request, f'You are not an Authorised Person. SignIn First.')
@@ -120,16 +121,14 @@ def about(request):
 
 @login_required
 def profile(request):
-    return render(request, 'fr/profile.html')
+    context={'data':  userdata.objects.filter(author=request.user)}
+    return render(request, 'fr/profile.html', context)
 
 @login_required
 def edit_profile(request):
     if request.method=='POST':
         u_form=UserUpdateForm(request.POST, instance=request.user)
         p_form=ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
-        
-        # p1=u_form.get("password1")
-        # p2=u_form.get("password2")
         if u_form.is_valid() and p_form.is_valid():
             
             u_form.save()
@@ -166,7 +165,7 @@ def edit_password(request):
 # Password Mangaer Class Views
 
 class DataDetailView(LoginRequiredMixin,UserPassesTestMixin,DetailView):
-    model=userdata
+    model = userdata
     def test_func(self):
         data=self.get_object()
         if self.request.user==data.author:
@@ -178,9 +177,12 @@ class DataCreateView(LoginRequiredMixin,CreateView):
     fields=['title', 'userid', 'password', 'link']
     success_url = '/profile'
     context_object_name = 'data'
+    
     def form_valid(self,form):
         form.instance.author=self.request.user
         return super().form_valid(form)
+
+
 
 class DataUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model=userdata
