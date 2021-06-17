@@ -15,6 +15,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
+from cryptography.fernet import Fernet
 
 # Algorithms
 from .algorithm import FaceRecognition
@@ -101,9 +102,14 @@ def register(request):
             user = form.save()
             username=form.cleaned_data.get("username")
             print(username, user.id)
-            # messages.success(request, f'{username}: your account has been created, you can now login')
-            # return render(request, "fr/detect_face.html", {'user':  username})
+            profile = Profile.objects.filter(user_id=user.id).last()
+            print("Before:- ", profile.user_secret_key)
+            profile.user_secret_key = Fernet.generate_key().decode('utf-8')
+            print('After:- ', profile.user_secret_key)
+            profile.save()
+
             return redirect('detect-face', permanent=True)
+        
 
     else:
         form=MyForm()

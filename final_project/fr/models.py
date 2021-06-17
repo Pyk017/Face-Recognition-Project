@@ -4,6 +4,7 @@ from django.utils import timezone
 # Create your models here.
 class Profile(models.Model):
     user=models.OneToOneField(User, on_delete=models.CASCADE)
+    user_secret_key = models.CharField("User Secret Key", max_length=500, blank=True, null=True)
     image=models.ImageField(default='default.jpg',upload_to='profile_pics')
     description = models.TextField(default='nothing in it')
 

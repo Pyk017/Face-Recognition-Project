@@ -43,6 +43,11 @@
       crossorigin="anonymous"
     ></script>
     <script src="{% static 'fr/profile.js' %}"></script>
+    <style>
+      td {
+        word-break: break-all;
+      }
+    </style>
   </head>
 
   <body class="profile-page">
@@ -128,6 +133,7 @@
                 <div class="name">
                   <h2 class="title">{{user.username}}</h2>
                   <h4 class="text-muted">{{user.email}}</h4>
+                  <h5 class="text-muted">{{user.profile.user_secret_key}}</h5>
                 </div>
               </div>
             </div>
@@ -160,6 +166,7 @@
                     <th scope="col">USER ID</th>
                     <!-- <th scope="col">PASSWORD</th> -->
                     <th scope="col">LINK</th>
+                    <th></th>
                   </tr>
                 </thead>
                 {% for d in data %}
@@ -173,7 +180,10 @@
                     <td>{{ d.date_created|date:"F d, Y"}}</td>
                     <td href=" ">{{ d.userid }}</td>
                     <!-- <td>{{ d.password}}</td> -->
-                    <td><a href="https://{{ d.link }}">{{ d.link }}</a></td>
+                    <td>
+                      <a href="https://{{ d.link }}">{{ d.link }}</a>
+                    </td>
+                    <td></td>
                   </tr>
                 </tbody>
                 {% endfor %}

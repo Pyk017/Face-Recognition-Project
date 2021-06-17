@@ -237,3 +237,6 @@ var BrowserDetect = {
     },
   ],
 };
+
+let icon = $("icon");
+console.log(icon);
