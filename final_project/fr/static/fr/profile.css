@@ -69,6 +69,7 @@ h6 {
 }
 
 .navbar .navbar-nav .nav-item .nav-link {
+  display: inline-block;
   position: relative;
   color: inherit;
   padding: 0.9375rem;
@@ -76,6 +77,27 @@ h6 {
   font-size: 12px;
   border-radius: 3px;
   line-height: 20px;
+}
+
+.navbar .navbar-nav .nav-item .nav-link:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 3px;
+  transform: scaleX(0);
+  background-color: #9c27b0;
+  transition: transform 0.3s;
+}
+
+.navbar .navbar-nav .nav-item .nav-link:hover:after {
+  transform: scaleX(1);
+}
+
+.navbar .navbar-nav .nav-item .nav-link:hover {
+  color: #9c27b0;
 }
 
 a .material-icons {
@@ -97,6 +119,12 @@ a .material-icons {
 .page-header {
   height: 100vh;
   background-size: cover;
+  background-image: linear-gradient(
+      to bottom,
+      rgba(92, 77, 66, 0.7) 0%,
+      rgba(92, 77, 66, 0.7) 100%
+    ),
+    url("bg-masthead.jpg");
   margin: 0;
   padding: 0;
   border: 0;
@@ -128,7 +156,9 @@ a .material-icons {
 }
 
 .main {
-  background: #fff;
+  background: #f2994a;
+  background: -webkit-linear-gradient(to right, #f2c94c, #f2994a);
+  background: linear-gradient(to right, #f2c94c, #f2994a);
   position: relative;
   z-index: 3;
 }
@@ -303,4 +333,125 @@ img.rounded {
 .btn.btn-link {
   background-color: transparent;
   color: #999;
+}
+
+.cardinality {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.card {
+  background-color: transparent;
+  position: relative;
+  width: 350px;
+  height: 400px;
+  margin: 30px;
+  box-shadow: 20px 20px 50px rgb(0, 0, 0, 0.5);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #9c27b0;
+  border-left: 1px solid #9c27b0;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transform: perspective(500px);
+  transform: perspective(500px);
+}
+
+.container .card .content {
+  padding: 20px;
+  text-align: center;
+  transition: 0.5s;
+  transform: translateZ(30px);
+}
+
+.card .content a {
+  transform: translateZ(20px);
+}
+
+.container .card .content h2 {
+  position: absolute;
+  top: -130px;
+  right: 10px;
+  font-size: 8em;
+  color: rgb(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+.container .card .content h3 {
+  font-size: 2em;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.fillin {
+  position: relative;
+  padding: 12px 30px;
+  margin: 0.3125rem 1px;
+  font-size: 0.75rem;
+  font-weight: bolder;
+  line-height: 1.428571;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  border: 3px solid #9c27b0;
+  border-radius: 0.2rem;
+  outline: 0;
+  background: none;
+  transition: 0.3s ease-in;
+  color: #9c27b0;
+}
+
+.fillin:hover,
+.fillin:focus {
+  background-color: #9c27b0;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 11px rgba(33, 33, 33, 0.5);
+}
+
+.icon {
+  align-self: flex-start;
+  padding-left: 30px;
+}
+
+.card-text span {
+  pointer-events: none;
+}
+
+.website {
+  font-weight: bolder;
+  color: rgb(70, 70, 247);
+  transition: 0.3s ease-in-out;
+}
+
+.website:hover {
+  color: #3c4858;
+  text-decoration-line: underline;
+}
+
+.mid-heading {
+  display: flex;
+  justify-content: space-around;
+  margin-left: 8%;
+}
+
+.back {
+  padding-top: 4%;
+}
+
+.previous {
+  background-color: #f1f1f1;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 50%;
+  transition: 0.3s ease-in-out;
+}
+
+.previous:hover {
+  background-color: #9c27b0;
+  color: white;
 }

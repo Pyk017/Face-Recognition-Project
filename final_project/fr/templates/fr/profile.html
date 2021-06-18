@@ -1,7 +1,12 @@
-{% load static %} {% load crispy_forms_tags %}
+{% load static %}
 
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
@@ -25,11 +30,7 @@
       rel="stylesheet"
       href="https://rawgit.com/creativetimofficial/material-kit/master/assets/css/material-kit.css"
     />
-    <link
-      href="{% static 'fr/profile.css' %}"
-      rel="stylesheet"
-      type="text/css"
-    />
+    <link href="{% static 'fr/profile.css' %}" rel="stylesheet" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script
@@ -49,7 +50,6 @@
       }
     </style>
   </head>
-
   <body class="profile-page">
     <!-- Navbar -->
     <nav
@@ -63,7 +63,7 @@
     >
       <div class="container">
         <div class="navbar-translate">
-          <a class="navbar-brand" href="{% url 'profile' %}">FacePass</a>
+          <a class="navbar-brand" href="{% url 'fr-home' %}">FacePass</a>
           <button
             class="navbar-toggler"
             type="button"
@@ -105,14 +105,6 @@
     <div
       class="page-header header-filter"
       data-parallax="true"
-      style="
-        background-image: linear-gradient(
-            to bottom,
-            rgba(92, 77, 66, 0.7) 0%,
-            rgba(92, 77, 66, 0.7) 100%
-          ),
-          url('/static/fr/bg-masthead.jpg');
-      "
     ></div>
     <div class="main main-raised">
       <div class="profile-content">
@@ -120,151 +112,64 @@
           <div class="row">
             <div class="col-md-6 ml-auto mr-auto">
               <div class="profile">
-                {% if user.profile.image %}
+                <!-- {% if user.profile.image %} -->
                 <div class="avatar">
                   <img
-                    src="{{ user.profile.image.url }}"
+                    src="{% static 'fr/default.jpg' %}"
                     alt="Circle Image"
                     class="img-raised rounded-circle img-fluid"
                   />
                 </div>
-                {% endif %}
+                <!-- {% endif %} -->
 
                 <div class="name">
-                  <h2 class="title">{{user.username}}</h2>
-                  <h4 class="text-muted">{{user.email}}</h4>
-                  <h5 class="text-muted">{{user.profile.user_secret_key}}</h5>
+                  <h2 class="title">{{ user.username }}</h2>
+                  <h4 class="text-muted"><b>{{ user.email }}</b></h4>
+                  <h5 class="text-muted">{{ user.profile.user_secret_key }}</h5>
                 </div>
               </div>
             </div>
           </div>
-          <div>
-            {% if messages %} {% for m in messages %}
-            <div class="alert alert-{{ m.tags }}">{{m}}</div>
-            {%endfor%} {%endif%}
-          </div>
-          <div align="right">
-            <a href="{% url 'data-create' %}"
-              ><button class="btn btn-primary" type="submit">
-                ADD PASSWORD
-              </button></a
-            >
-            <a href="{% url 'passwords-list' %}">Test</a>
-          </div>
 
-          <div class="d-flex justify-content-center">
-            <h5 class="title">Stored Passwords</h5>
-          </div>
-          {% if data %}
-          <div class="row">
-            <div class="col-md-6 ml-auto mr-auto">
-              <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th scope="col">TITLE</th>
-                    <th scope="col">DATE CREATED</th>
-                    <th scope="col">USER ID</th>
-                    <!-- <th scope="col">PASSWORD</th> -->
-                    <th scope="col">LINK</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                {% for d in data %}
-                <tbody>
-                  <tr>
-                    <th scope="row">
-                      <a href="{% url 'data-detail' d.id %}"
-                        >{{ d.title|title }}</a
-                      >
-                    </th>
-                    <td>{{ d.date_created|date:"F d, Y"}}</td>
-                    <td href=" ">{{ d.userid }}</td>
-                    <!-- <td>{{ d.password}}</td> -->
-                    <td>
-                      <a href="https://{{ d.link }}">{{ d.link }}</a>
-                    </td>
-                    <td></td>
-                  </tr>
-                </tbody>
-                {% endfor %}
-              </table>
+          <div class="container cardinality">
+              <div class="card">
+                  <img src="{% static 'fr/password.png' %}" alt="password-icon" class="icon">
+                 <div class="content card-text">
+                    <h2 style="font-weight: bolder;">01</h2>
+                    <h3 class="title">Password Manager</h3>
+                    <a href="{% url 'passwords-list' %}">
+                        <button class="fillin" style="border-radius:2em;">Click to Start</button></a>
+                  </div>
+                  
+              </div>
+              <div class="card">
+                <img src="{% static 'fr/vault.png' %}" alt="password-icon" class="icon" width="100" height="70">
+                <div class="content">
+                    <h2 style="font-weight: bolder;">02</h2>
+                    <h3 class="title">Storage Vault</h3>
+                    <a href="#"><button class="fillin" style="border-radius:2em;">Click to Start</button></a>
+                </div>
             </div>
           </div>
-
-          {%else%}
-          <div class="d-flex justify-content-center">
-            <h3>You haven't stored any passwords yet</h3>
-          </div>
-
-          {% endif %}
-        </div>
-      </div>
+        
     </div>
+
+    <script type="text/javascript" src="{% static 'fr/js/vanilla-tilt.js' %}"></script>
+    <script type="text/javascript">
+        VanillaTilt.init(document.querySelectorAll(".card"), {
+            max: 25,
+            speed: 400,
+            glare: true,
+            "max-glare": 1,
+            scale: 1,
+            perspective: 500,
+            max: 15, 
+            transition: true,
+        });
+        
+        //It also supports NodeList
+        VanillaTilt.init(document.querySelectorAll(".card"));
+    </script>
+
   </body>
 </html>
-
-<!-- {% load crispy_forms_tags %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-
-  <body>
-    <div>
-      {% if messages %} {% for m in messages%}
-      <div class="alert alert-{{ m.tags }}">{{m}}</div>
-      {%endfor%} {%endif%}
-    </div>
-    <div class="content-section">
-      <div class="media">
-        {% if user.profile.image %}
-        <img
-          class="rounded-circle account-img"
-          src="{{ user.profile.image.url }}"
-        />
-        {% endif %}
-
-        <div class="media-body">
-          <h2 class="account-heading">{{user.username}}</h2>
-          <p class="text-secondary">{{user.email}}</p>
-        </div>
-      </div>
-      FORM HERE
-
-      <div class="form-group text-center justify-content-center">
-        <a href="{% url 'edit_profile' %}">
-          <input
-            type="submit"
-            value="edit profile"
-            class="btn login_btn"
-            style="align-items: center"
-          />
-        </a>
-
-        <a href="{% url 'edit_password' %}">
-          <input
-            type="submit"
-            value="edit password"
-            class="btn login_btn"
-            style="align-items: center"
-          />
-        </a>
-
-        <a href="{% url 'logout' %}">
-          <input
-            type="submit"
-            value="logout"
-            class="btn login_btn"
-            style="align-items: center"
-          />
-        </a>
-      </div>
-    </div>
-
-    <p>this is currently being used as a profile page</p>
-  </body>
-</html> -->
