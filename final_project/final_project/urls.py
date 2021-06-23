@@ -22,7 +22,7 @@ from django.contrib.auth import views as auth_views
 from fr.forms import LoginForm
 from django.conf import settings
 from django.conf.urls.static import static
-from fr.views import DataDetailView, DataCreateView, DataUpdateView, DataDeleteView
+# from fr.views import DataDetailView, DataCreateView, DataUpdateView, DataDeleteView
 
 from Passwords.views import (   PasswordCreateView, 
                                 PasswordDetailView, 
@@ -47,10 +47,10 @@ urlpatterns = [
 
 
 
-    path('data/<int:pk>/', DataDetailView.as_view(), name="data-detail"),
-    path('data/create/', DataCreateView.as_view(), name="data-create"),
-    path('data/<int:pk>/update', DataUpdateView.as_view(), name="data-update"),
-    path('data/<int:pk>/delete', DataDeleteView.as_view(), name="data-delete"),
+    # path('data/<int:pk>/', DataDetailView.as_view(), name="data-detail"),
+    # path('data/create/', DataCreateView.as_view(), name="data-create"),
+    # path('data/<int:pk>/update', DataUpdateView.as_view(), name="data-update"),
+    # path('data/<int:pk>/delete', DataDeleteView.as_view(), name="data-delete"),
 
 
 

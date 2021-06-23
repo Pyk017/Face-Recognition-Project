@@ -10526,3 +10526,15 @@ header.masthead h1 {
 .text-white-75 {
   color: rgba(255, 255, 255, 0.75);
 }
+
+.titling {
+  font-weight: bold;
+  color: #f4623a;
+  cursor: default;
+  transition: 0.2s ease-in all;
+}
+
+.titling:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--purple);
+}

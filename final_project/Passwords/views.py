@@ -10,6 +10,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import PasswordData
 from fr.models import Profile
 from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+import os
+
+import qrcode
+import qrcode.image.svg
+from io import BytesIO
+
+nonce = os.urandom(12)
+
 
 class PasswordListView(LoginRequiredMixin, ListView):
     model = PasswordData
@@ -19,6 +28,7 @@ class PasswordListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(PasswordListView, self).get_context_data(**kwargs)
         context['data'] = context['data'].filter(author=self.request.user)
+        context['count'] = context['data'].filter(author=self.request.user).count()
         search_input = self.request.GET.get('search-area') or ''
         if search_input:
             context['data'] = context['data'].filter(site_name__icontains=search_input)
@@ -36,17 +46,36 @@ class PasswordDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(PasswordDetailView, self).get_context_data(**kwargs)
 
-        secret_key = (self.request.user.profile.user_secret_key).encode()
+        secret_key = (self.request.user.profile.user_secret_key).encode('utf-8')
         _cipher = Fernet(secret_key)
-        token = str(context['data'].password).encode()
+        # _cipher = AESGCM(secret_key)
+        # nonce = os.urandom(12)
+        token = context['data'].password.encode('utf-8')
+        # print('token :- ', token)
+        # print('typeoftoken :- ', type(token))
+        # nonce = os.urandom(12)
+        # print('nonce :- ', nonce)
+        # print('type of nonce :- ', type(nonce))
         decrypt = _cipher.decrypt(token)
-        context['form_input'] = str(decrypt.decode())
+        context['form_input'] = decrypt.decode('utf-8')
 
         
+        # QR code generation
+
+        factory = qrcode.image.svg.SvgImage
+        img = qrcode.make(context['form_input'], image_factory=factory, box_size=35)
+        stream = BytesIO()
+        img.save(stream)
+        context['svg'] = stream.getvalue().decode()
+
+
         # token = (context['data'].password).encode()
         # decrypt = _cipher.decrypt(token)
         # context['data'].password = decrypt
         return context
+
+
+    
 
 
 class PasswordCreateView(LoginRequiredMixin,CreateView):
@@ -59,10 +88,13 @@ class PasswordCreateView(LoginRequiredMixin,CreateView):
     def form_valid(self,form):
         form.instance.author=self.request.user
         form_data = form.cleaned_data
-        secret_key = (self.request.user.profile.user_secret_key).encode()
-        _cipher = Fernet(secret_key)
+        secret_key = (self.request.user.profile.user_secret_key).encode('utf-8')
+        # _cipher = Fernet(secret_key)
+        _cipher = AESGCM(secret_key)
         enc_string = form_data['password']
-        encoded_text = _cipher.encrypt(str.encode(enc_string))
+        nonce = os.urandom(12)
+        # encoded_text = _cipher.encrypt(str.encode(enc_string))
+        encoded_text = _cipher.encrypt(enc_string.encode('utf-8'))
 
         # new_pass = PasswordData(
         #     site_name = form_data['site_name'],
@@ -74,12 +106,15 @@ class PasswordCreateView(LoginRequiredMixin,CreateView):
         # new_pass.save()
 
         form.instance.password = encoded_text.decode('utf-8')
+        print('encoded-text :- ', encoded_text)
+        print("encoded encoded-text :- ", encoded_text.decode("latin-1"))
 
         # print('Encoded string :- ', encoded_text)
         # decoded_text = encoded_text.decode('utf-8')
         # print('Decoded string :- ', decoded_text)
         # return HttpResponse('password-manager')
         return super().form_valid(form)
+
 
 
 class PasswordUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):

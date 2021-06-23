@@ -1,0 +1,223 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
+      integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://rawgit.com/creativetimofficial/material-kit/master/assets/css/material-kit.css"
+    />
+    <link href="{% static 'fr/profile.css' %}" rel="stylesheet" />
+
+    <!-- <script
+      src="https://cdn.jsdelivr.net/npm/tsparticles@1.16.2/dist/tsparticles.min.js"
+      integrity="sha256-2Sly/Hf9UP7YBu6LEPpn/6rxMZR5EeGq89mBa4G5+YA="
+      crossorigin="anonymous"
+    ></script>
+    <script src="{% static 'fr/js/app.js' %}"></script> -->
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script
+      src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
+      integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
+      integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+      crossorigin="anonymous"
+    ></script>
+    <script src="{% static 'fr/profile.js' %}"></script>
+    <style>
+      td {
+        word-break: break-all;
+      }
+    </style>
+  </head>
+  <body class="profile-page" onload="backbutton()">
+    <!-- Navbar -->
+    <nav
+      class="
+        navbar navbar-color-on-scroll navbar-transparent
+        fixed-top
+        navbar-expand-lg
+      "
+      color-on-scroll="100"
+      id="sectionsNav"
+    >
+      <div class="container">
+        <div class="navbar-translate">
+          <a class="navbar-brand" href="{% url 'fr-home' %}">FacePass</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+        <!-- Navbar Items -->
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'add-new-password' %}">
+                Add Password
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'edit_profile' %}">
+                Edit Profile
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'edit_password' %}">
+                Edit Password
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}"> Logout </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="page-header header-filter" data-parallax="true"></div>
+    <!-- <div id="tsparticles"></div> -->
+    <div class="main main-raised">
+      <!-- <div id="tsparticles"> -->
+      <div class="profile-content">
+        <div class="container">
+          <div class="row">
+            <div class="backButton" id="backButton">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="50"
+                height="50"
+                fill="currentColor"
+                class="bi bi-arrow-left-circle"
+                id="arrowCircle"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"
+                />
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="50"
+                height="50"
+                fill="currentColor"
+                class="bi bi-arrow-left-circle-fill"
+                id="arrowCircleFill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"
+                />
+              </svg>
+            </div>
+
+            <div class="col-md-6 ml-auto mr-auto">
+              <div class="profile">
+                <div class="avatar">
+                  <img
+                    src="{% static 'fr/default.jpg' %}"
+                    alt="Circle Image"
+                    class="img-raised rounded-circle img-fluid"
+                  />
+                </div>
+                <div class="name">
+                  <h2 class="title">{{ user.username }}</h2>
+                  <h4 class="text-muted"><b>{{ user.email }}</b></h4>
+                  <h5 class="text-muted">{{ user.profile.user_secret_key }}</h5>
+                </div>
+              </div>
+            </div>
+            <div class="forwardButton">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                id="arrowCircleRight"
+                width="50"
+                height="50"
+                fill="currentColor"
+                class="bi bi-arrow-right-circle"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"
+                />
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                id="arrowCircleFillRight"
+                width="50"
+                height="50"
+                fill="currentColor"
+                class="bi bi-arrow-right-circle-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"
+                />
+              </svg>
+            </div>
+          </div>
+
+          {% block content %} {% endblock content %}
+        </div>
+      </div>
+      <!-- </div> -->
+    </div>
+
+    <script
+      type="text/javascript"
+      src="{% static 'fr/js/vanilla-tilt.js' %}"
+    ></script>
+    <script type="text/javascript">
+      VanillaTilt.init(document.querySelectorAll(".card"), {
+        max: 25,
+        speed: 400,
+        glare: true,
+        "max-glare": 1,
+        scale: 1,
+        perspective: 500,
+        max: 15,
+        transition: true,
+      });
+
+      //It also supports NodeList
+      VanillaTilt.init(document.querySelectorAll(".card"));
+    </script>
+  </body>
+</html>

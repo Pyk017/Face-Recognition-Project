@@ -238,5 +238,50 @@ var BrowserDetect = {
   ],
 };
 
-let icon = $("icon");
-console.log(icon);
+function backbutton() {
+  let circle = document
+    .getElementById("arrowCircle")
+    .addEventListener("mouseover", (e) => {
+      let circleFill = document.getElementById("arrowCircleFill");
+      circleFill.style.display = "block";
+      let circle = document.getElementById("arrowCircle");
+      circle.style.display = "none";
+    });
+
+  let circlefill = document
+    .getElementById("arrowCircleFill")
+    .addEventListener("mouseout", (e) => {
+      let circleFill = document.getElementById("arrowCircleFill");
+      circleFill.style.display = "none";
+      let circle = document.getElementById("arrowCircle");
+      circle.style.display = "block";
+    });
+
+  document.getElementById("arrowCircleFill").addEventListener("click", () => {
+    window.history.back();
+  });
+
+  document
+    .getElementById("arrowCircleRight")
+    .addEventListener("mouseover", (e) => {
+      let circleFill = document.getElementById("arrowCircleFillRight");
+      circleFill.style.display = "block";
+      let circle = document.getElementById("arrowCircleRight");
+      circle.style.display = "none";
+    });
+
+  document
+    .getElementById("arrowCircleFillRight")
+    .addEventListener("mouseout", (e) => {
+      let circleFill = document.getElementById("arrowCircleFillRight");
+      circleFill.style.display = "none";
+      let circle = document.getElementById("arrowCircleRight");
+      circle.style.display = "block";
+    });
+
+  document
+    .getElementById("arrowCircleFillRight")
+    .addEventListener("click", () => {
+      window.history.forward();
+    });
+}

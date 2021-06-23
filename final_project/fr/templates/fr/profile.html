@@ -1,175 +1,41 @@
-{% load static %}
+{% extends "fr/base.html" %}{% load static %}
+<!--testing -->{% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile</title>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
+<div class="container cardinality">
+  <div class="card">
+    <img
+      src="{% static 'fr/password.png' %}"
+      alt="password-icon"
+      class="icon"
     />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
-      integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX"
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"
-    />
-    <link
-      rel="stylesheet"
-      href="https://rawgit.com/creativetimofficial/material-kit/master/assets/css/material-kit.css"
-    />
-    <link href="{% static 'fr/profile.css' %}" rel="stylesheet" />
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script
-      src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
-      integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
-      integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
-      crossorigin="anonymous"
-    ></script>
-    <script src="{% static 'fr/profile.js' %}"></script>
-    <style>
-      td {
-        word-break: break-all;
-      }
-    </style>
-  </head>
-  <body class="profile-page">
-    <!-- Navbar -->
-    <nav
-      class="
-        navbar navbar-color-on-scroll navbar-transparent
-        fixed-top
-        navbar-expand-lg
-      "
-      color-on-scroll="100"
-      id="sectionsNav"
-    >
-      <div class="container">
-        <div class="navbar-translate">
-          <a class="navbar-brand" href="{% url 'fr-home' %}">FacePass</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-            <span class="navbar-toggler-icon"></span>
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </div>
-        <!-- Navbar Items -->
-        <div class="collapse navbar-collapse">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'data-create' %}">
-                Add Password
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'edit_profile' %}">
-                Edit Profile
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'edit_password' %}">
-                Edit Password
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'logout' %}"> Logout </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <div
-      class="page-header header-filter"
-      data-parallax="true"
-    ></div>
-    <div class="main main-raised">
-      <div class="profile-content">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6 ml-auto mr-auto">
-              <div class="profile">
-                <!-- {% if user.profile.image %} -->
-                <div class="avatar">
-                  <img
-                    src="{% static 'fr/default.jpg' %}"
-                    alt="Circle Image"
-                    class="img-raised rounded-circle img-fluid"
-                  />
-                </div>
-                <!-- {% endif %} -->
-
-                <div class="name">
-                  <h2 class="title">{{ user.username }}</h2>
-                  <h4 class="text-muted"><b>{{ user.email }}</b></h4>
-                  <h5 class="text-muted">{{ user.profile.user_secret_key }}</h5>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="container cardinality">
-              <div class="card">
-                  <img src="{% static 'fr/password.png' %}" alt="password-icon" class="icon">
-                 <div class="content card-text">
-                    <h2 style="font-weight: bolder;">01</h2>
-                    <h3 class="title">Password Manager</h3>
-                    <a href="{% url 'passwords-list' %}">
-                        <button class="fillin" style="border-radius:2em;">Click to Start</button></a>
-                  </div>
-                  
-              </div>
-              <div class="card">
-                <img src="{% static 'fr/vault.png' %}" alt="password-icon" class="icon" width="100" height="70">
-                <div class="content">
-                    <h2 style="font-weight: bolder;">02</h2>
-                    <h3 class="title">Storage Vault</h3>
-                    <a href="#"><button class="fillin" style="border-radius:2em;">Click to Start</button></a>
-                </div>
-            </div>
-          </div>
-        
+    <div class="content card-text">
+      <h2 style="font-weight: bolder">01</h2>
+      <h3 class="title">Password Manager</h3>
+      <a href="{% url 'passwords-list' %}">
+        <button class="fillin" style="border-radius: 2em">
+          Click to Start
+        </button></a
+      >
     </div>
+  </div>
+  <div class="card">
+    <img
+      src="{% static 'fr/vault.png' %}"
+      alt="password-icon"
+      class="icon"
+      width="100"
+      height="70"
+    />
+    <div class="content">
+      <h2 style="font-weight: bolder">02</h2>
+      <h3 class="title">Storage Vault</h3>
+      <a href="#"
+        ><button class="fillin" style="border-radius: 2em">
+          Click to Start
+        </button></a
+      >
+    </div>
+  </div>
+</div>
 
-    <script type="text/javascript" src="{% static 'fr/js/vanilla-tilt.js' %}"></script>
-    <script type="text/javascript">
-        VanillaTilt.init(document.querySelectorAll(".card"), {
-            max: 25,
-            speed: 400,
-            glare: true,
-            "max-glare": 1,
-            scale: 1,
-            perspective: 500,
-            max: 15, 
-            transition: true,
-        });
-        
-        //It also supports NodeList
-        VanillaTilt.init(document.querySelectorAll(".card"));
-    </script>
-
-  </body>
-</html>
+{% endblock %}

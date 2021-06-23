@@ -1,7 +1,3 @@
-let ts = require("./test");
-
-print = (...objects) => console.log(...objects);
-
 function test(e) {
   let passwords = document.getElementsByTagName("input");
   let enc_pass = passwords[0];
@@ -48,4 +44,15 @@ function decryption(e) {
 
   e.parentNode.innerHTML =
     "Your Password is encrypted and secured. <a href='#' id='decrypt' onclick='decryption(this)'><b>Click here</b></a> to view the Encrypted one";
+}
+
+function qrcodeload() {
+  $(".qrcodetitle").text("Generate QR Code");
+  $("#cardinality").toggle(() => {
+    let text =
+      $(".qrcodetitle").text() == "Generate QR Code"
+        ? "Hide QR Code"
+        : "Generate QR Code";
+    $(".qrcodetitle").text(text);
+  });
 }
