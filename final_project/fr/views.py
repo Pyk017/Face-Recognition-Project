@@ -17,7 +17,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-
+import os
 # Algorithms
 from .algorithm import FaceRecognition
 from .Algorythm import Capture, Recognize
@@ -105,9 +105,11 @@ def register(request):
             print(username, user.id)
             profile = Profile.objects.filter(user_id=user.id).last()
             print("Before:- ", profile.user_secret_key)
-            profile.user_secret_key = Fernet.generate_key().decode('utf-8')
-            # profile.user_secret_key = AESGCM.generate_key(bit_length=128).decode('latin-1')
-            print('After:- ', profile.user_secret_key)
+            # profile.user_secret_key = Fernet.generate_key().decode('utf-8')
+            profile.user_secret_key = AESGCM.generate_key(bit_length=128).decode('latin-1')
+            profile.nonce = os.urandom(12).decode('latin-1')
+            print('After secret key:- ', profile.user_secret_key)
+            print('After nonce:- ', profile.nonce)
             profile.save()
 
             return redirect('detect-face', permanent=True)

@@ -1,4 +1,3 @@
-from base64 import encode
 from django.conf.urls import url
 from django.http import request, HttpResponse
 from django.shortcuts import render
@@ -7,17 +6,13 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 # from fr.models import userdata
+
 from .models import PasswordData
-from fr.models import Profile
-from cryptography.fernet import Fernet
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-import os
+from fr.AES_OOP import AES
 
 import qrcode
 import qrcode.image.svg
 from io import BytesIO
-
-nonce = os.urandom(12)
 
 
 class PasswordListView(LoginRequiredMixin, ListView):
@@ -46,36 +41,32 @@ class PasswordDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(PasswordDetailView, self).get_context_data(**kwargs)
 
-        secret_key = (self.request.user.profile.user_secret_key).encode('utf-8')
-        _cipher = Fernet(secret_key)
-        # _cipher = AESGCM(secret_key)
-        # nonce = os.urandom(12)
-        token = context['data'].password.encode('utf-8')
-        # print('token :- ', token)
-        # print('typeoftoken :- ', type(token))
-        # nonce = os.urandom(12)
-        # print('nonce :- ', nonce)
-        # print('type of nonce :- ', type(nonce))
-        decrypt = _cipher.decrypt(token)
-        context['form_input'] = decrypt.decode('utf-8')
+        # User's personal secret key and nonce
+        secret_key = (self.request.user.profile.user_secret_key).encode('latin-1')
+        nonce = (self.request.user.profile.nonce).encode('latin-1')
 
+        # Object of self defined AES class implementing AES Algorithm using cryptography module
+        aes = AES(secret_key)
+        # Encrypted Password 
+        token = context['data'].password
+
+        # Decryption Process
+        decrypted_text, by = aes.decrypt(nonce, token)
+        print('Decrypted_Text :- ' ,decrypted_text)
+        print('Decrypted_Text in bytes :- ' ,by)
+        
+        # Decrypted Password
+        context['form_input'] = decrypted_text
         
         # QR code generation
-
         factory = qrcode.image.svg.SvgImage
         img = qrcode.make(context['form_input'], image_factory=factory, box_size=35)
         stream = BytesIO()
         img.save(stream)
         context['svg'] = stream.getvalue().decode()
 
-
-        # token = (context['data'].password).encode()
-        # decrypt = _cipher.decrypt(token)
-        # context['data'].password = decrypt
         return context
 
-
-    
 
 
 class PasswordCreateView(LoginRequiredMixin,CreateView):
@@ -88,31 +79,26 @@ class PasswordCreateView(LoginRequiredMixin,CreateView):
     def form_valid(self,form):
         form.instance.author=self.request.user
         form_data = form.cleaned_data
-        secret_key = (self.request.user.profile.user_secret_key).encode('utf-8')
-        # _cipher = Fernet(secret_key)
-        _cipher = AESGCM(secret_key)
+
+        # User's personal secret key and nonce
+        secret_key = (self.request.user.profile.user_secret_key).encode('latin-1')
+        nonce = (self.request.user.profile.nonce).encode('latin-1')
+
+        # Object of self defined AES class implementing AES Algorithm using cryptography module
+        aes = AES(secret_key)
+
+        # Getting Password from Form
         enc_string = form_data['password']
-        nonce = os.urandom(12)
-        # encoded_text = _cipher.encrypt(str.encode(enc_string))
-        encoded_text = _cipher.encrypt(enc_string.encode('utf-8'))
-
-        # new_pass = PasswordData(
-        #     site_name = form_data['site_name'],
-        #     password = encoded_text.decode('utf-8'),
-        #     user_id = form_data['user_id'],
-        #     link = form_data['link'],
-        #     author = self.request.user
-        # )
-        # new_pass.save()
-
-        form.instance.password = encoded_text.decode('utf-8')
-        print('encoded-text :- ', encoded_text)
-        print("encoded encoded-text :- ", encoded_text.decode("latin-1"))
-
-        # print('Encoded string :- ', encoded_text)
-        # decoded_text = encoded_text.decode('utf-8')
-        # print('Decoded string :- ', decoded_text)
-        # return HttpResponse('password-manager')
+    
+        # Encryption Process
+        encoded_text, by = aes.encrypt(nonce, enc_string)
+        print("Encoded text = ", encoded_text)
+        print('in bytes :- ', by)
+        print("nonce :- ", nonce)
+        
+        # Changing the form instance to save the encrypted password rather than raw password
+        form.instance.password = encoded_text
+        
         return super().form_valid(form)
 
 
