@@ -107,9 +107,28 @@ class PasswordUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = PasswordData
     fields = ['site_name', 'user_id', 'password', 'link']
     success_url = reverse_lazy('passwords-list')
-    template_name = "Passwords/add_new_password.html"
+    template_name = "Passwords/password_update.html"
     def form_valid(self,form):
         form.instance.author=self.request.user
+        form_data = form.cleaned_data
+        # User's personal secret key and nonce
+        secret_key = (self.request.user.profile.user_secret_key).encode('latin-1')
+        nonce = (self.request.user.profile.nonce).encode('latin-1')
+
+        # Object of self defined AES class implementing AES Algorithm using cryptography module
+        aes = AES(secret_key)
+
+        # Getting Password from Form
+        enc_string = form_data['password']
+    
+        # Encryption Process
+        encoded_text, by = aes.encrypt(nonce, enc_string)
+        print("Encoded text = ", encoded_text)
+        print('in bytes :- ', by)
+        print("nonce :- ", nonce)
+        
+        # Changing the form instance to save the encrypted password rather than raw password
+        form.instance.password = encoded_text
         return super().form_valid(form)
 
     def test_func(self):

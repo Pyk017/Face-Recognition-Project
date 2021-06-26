@@ -131,7 +131,7 @@ class FaceLoginForm(AuthenticationForm):
 #  feedback = forms.CharField(widget=forms.Textarea(attrs={'width':"100%", 'cols' : "80", 'rows': "20", }))
 
 class UserUpdateForm(forms.ModelForm):
-    email = forms.EmailField(label="", widget=forms.TextInput(attrs={'placeholder':'email'}), max_length=100)
+    email = forms.EmailField(label="Email", widget=forms.TextInput(attrs={'placeholder':'email'}), max_length=100)
     # password1 = forms.CharField(label="", widget=forms.PasswordInput(attrs={'placeholder':'password'}),required=True)
     
     # password2 = forms.CharField(label="", widget=forms.PasswordInput(attrs={'placeholder':'confirm password'}), required=True)

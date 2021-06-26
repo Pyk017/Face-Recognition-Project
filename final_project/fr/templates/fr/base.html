@@ -157,7 +157,9 @@
                   />
                 </div>
                 <div class="name">
-                  <h2 class="title">{{ user.username }}</h2>
+                  <a href="{% url 'profile' %}"
+                    ><h2 class="title">{{ user.username }}</h2></a
+                  >
                   <h4 class="text-muted"><b>{{ user.email }}</b></h4>
                   <h5 class="text-muted">{{ user.profile.user_secret_key }}</h5>
                 </div>

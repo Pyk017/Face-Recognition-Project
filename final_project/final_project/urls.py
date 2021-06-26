@@ -63,6 +63,7 @@ urlpatterns = [
     path('password-manager/<int:pk>/delete-password', PasswordDeleteView.as_view(), name="password-delete"),
 
 
+    path("personal-vault/",fr_views.vault, name="vault"),
     # path(
     #     'edit_password/',
     #     auth_views.PasswordChangeView.as_view(
