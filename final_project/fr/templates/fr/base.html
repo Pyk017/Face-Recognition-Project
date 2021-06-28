@@ -150,11 +150,12 @@
             <div class="col-md-6 ml-auto mr-auto">
               <div class="profile">
                 <div class="avatar">
-                  <img
-                    src="{% static 'fr/default.jpg' %}"
-                    alt="Circle Image"
-                    class="img-raised rounded-circle img-fluid"
-                  />
+                  <a href="{% url 'profile' %}"
+                    ><img
+                      src="{{user.profile.image.url}}"
+                      alt="Circle Image"
+                      class="img-raised rounded-circle img-fluid"
+                  /></a>
                 </div>
                 <div class="name">
                   <a href="{% url 'profile' %}"

@@ -37,13 +37,14 @@ function decryption(e) {
   if (enc_pass.style.display == "") {
     enc_pass.style.display = "none";
     original_pass.style.display = "";
+    e.parentNode.innerHTML =
+      "Your Password is encrypted and secured. <a href='#' id='decrypt' onclick='decryption(this)'><b>Click here</b></a> to view the Encrypted one";
   } else {
     enc_pass.style.display = "";
     original_pass.style.display = "none";
+    e.parentNode.innerHTML =
+      "Your Password is encrypted and secured. <a href='#' id='decrypt' onclick='decryption(this)'><b>Click here</b></a> to view the Original one";
   }
-
-  e.parentNode.innerHTML =
-    "Your Password is encrypted and secured. <a href='#' id='decrypt' onclick='decryption(this)'><b>Click here</b></a> to view the Encrypted one";
 }
 
 function qrcodeload() {
