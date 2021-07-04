@@ -57,3 +57,5 @@ function qrcodeload() {
     $(".qrcodetitle").text(text);
   });
 }
+
+console.log("hello world");

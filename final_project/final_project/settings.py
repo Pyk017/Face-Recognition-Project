@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'fr.apps.FrConfig',
     'Passwords.apps.PasswordsConfig',
+    'Vault.apps.VaultConfig',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',

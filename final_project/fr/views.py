@@ -172,12 +172,6 @@ def edit_password(request):
     })
 
 
-
-
-@login_required
-def vault(request):
-    return render(request, 'Passwords/vault.html', {})
-
 # Password Mangaer Class Views
 
 # class DataDetailView(LoginRequiredMixin,UserPassesTestMixin,DetailView):

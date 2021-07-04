@@ -1,0 +1,146 @@
+{% extends "fr/base.html" %}{% load crispy_forms_tags %}{% load static %}
+<!--testing -->{% block content %}
+
+<style>
+  label {
+    color: #9c27b0;
+    font-weight: bold;
+  }
+  input::placeholder {
+    color: black;
+  }
+  .form-group > label {
+    color: #9c27b0;
+    font-weight: bold;
+  }
+  .form-group {
+    width: 150%;
+  }
+  #div_id_user_id {
+    word-wrap: break-word;
+  }
+  .textinput {
+    border-bottom: 0px solid black;
+  }
+  .form-control:invalid {
+    background-image: linear-gradient(
+        to top,
+        #f44336 3px,
+        rgba(244, 67, 54, 0) 2px
+      ),
+      linear-gradient(to top, #3a1818 1px, rgba(210, 210, 210, 0) 1px);
+  }
+  .form-control:valid {
+    background-image: linear-gradient(
+        to top,
+        #9c27b0 3px,
+        rgba(156, 39, 176, 0) 2px
+      ),
+      linear-gradient(to top, #3a1818 1px, rgba(210, 210, 210, 0) 1px);
+  }
+  .upload-icon {
+    float: right;
+    cursor: pointer;
+  }
+  .filename {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
+
+<script>
+  $(document).ready(() => {
+    $("#id_image").change(function () {
+      filename = this.files[0].name;
+      $("#imagename").text(filename);
+    });
+    $("#id_fileUpload").change(function () {
+      filename = this.files[0].name;
+      $("#fileUpload").text(filename);
+    });
+  });
+</script>
+
+<div class="d-flex justify-content-center">
+  <h3 class="title">Upload Files</h3>
+</div>
+<div class="d-flex justify-content-center">
+  <form method="POST" enctype="multipart/form-data" style="width: 35%">
+    {% csrf_token %}
+
+    <div
+      id="div_id_image"
+      class="form-group"
+      style="margin-bottom: 40px; width: 150%"
+    >
+      <label for="id_image" class="requiredField">
+        Image<span class="asteriskField">*</span>
+      </label>
+      <label for="id_image" class="requiredField upload-icon">
+        <img
+          src="{% static 'fr/upload.png' %}"
+          alt="upload-icon"
+          width="50"
+          height="50"
+        />
+      </label>
+
+      <div class="">
+        <input
+          type="file"
+          name="image"
+          accept="image/*"
+          class="clearablefileinput form-control-file"
+          id="id_image"
+        />
+      </div>
+
+      <div class="filename">
+        <span id="imagename"></span>
+      </div>
+    </div>
+    <div id="div_id_fileUpload" class="form-group" style="margin-bottom: 40px">
+      <label for="id_fileUpload" class="requiredField">
+        FileUpload<span class="asteriskField">*</span>
+      </label>
+      <label for="id_fileUpload" class="requiredField upload-icon">
+        <img
+          src="{% static 'fr/upload.png' %}"
+          alt="upload-icon"
+          width="50"
+          height="50"
+        />
+      </label>
+      <div class="">
+        <input
+          type="file"
+          name="fileUpload"
+          class="clearablefileinput form-control-file"
+          required=""
+          id="id_fileUpload"
+        />
+      </div>
+      <div class="filename">
+        <span id="fileUpload"></span>
+      </div>
+    </div>
+    <div id="div_id_description" class="form-group bmd-form-group is-filled">
+      <label for="id_description" class="bmd-label-static"> Description </label>
+      <div class="">
+        <input
+          type="text"
+          name="description"
+          value="No Description"
+          maxlength="1000"
+          class="textinput textInput form-control"
+          id="id_description"
+        />
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+{% endblock %}

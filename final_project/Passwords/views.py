@@ -24,6 +24,7 @@ class PasswordListView(LoginRequiredMixin, ListView):
         context = super(PasswordListView, self).get_context_data(**kwargs)
         context['data'] = context['data'].filter(author=self.request.user)
         context['count'] = context['data'].filter(author=self.request.user).count()
+        
         search_input = self.request.GET.get('search-area') or ''
         if search_input:
             context['data'] = context['data'].filter(site_name__icontains=search_input)

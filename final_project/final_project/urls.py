@@ -31,6 +31,10 @@ from Passwords.views import (   PasswordCreateView,
                                 PasswordDeleteView,
                             )
 
+from Vault import views as vault_views
+from Vault.views import VaultCreateView, VaultListView
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -54,7 +58,7 @@ urlpatterns = [
 
 
 
-    # Password Application urls
+    # Password Application URLs
 
     path('password-manager/', PasswordListView.as_view(), name='passwords-list'),
     path('password-manager/<int:pk>/', PasswordDetailView.as_view(), name='password-detail'),
@@ -63,15 +67,12 @@ urlpatterns = [
     path('password-manager/<int:pk>/delete-password', PasswordDeleteView.as_view(), name="password-delete"),
 
 
-    path("personal-vault/",fr_views.vault, name="vault"),
-    # path(
-    #     'edit_password/',
-    #     auth_views.PasswordChangeView.as_view(
-    #         template_name='fr/edit_password.html',
-    #         success_url = '/profile'
-    #     ),
-    #     name='edit_password'
-    # ),
+    # Vault Application URLs    
+    # path("personal-vault/",vault_views.home, name="vault"),
+    path("personal-vault/",VaultCreateView.as_view(), name="vault-upload"),
+    path("personal-vault-list/",VaultListView.as_view(), name="vault-list"),
+
+    
 
     path('edit_password/', fr_views.edit_password, name="edit_password")
     
