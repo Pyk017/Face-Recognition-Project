@@ -24,12 +24,29 @@
       ),
       linear-gradient(to top, #3a1818 1px, rgba(210, 210, 210, 0) 1px);
   }
+  select {
+    padding: 3px 5px;
+    text-transform: none;
+    appearance: auto;
+    box-sizing: border-box;
+    margin: 0em;
+    border-radius: 10px;
+    background-color: #9b27b0b9;
+    color: white;
+  }
 </style>
 
+<script>
+  $("document").ready(() => {
+    $("#sort").val($("#sort option:first").val());
+    $("#sort").on("change", () => {
+      $(".sortForm").submit();
+    });
+  });
+</script>
+
 <div class="mid-heading">
-  <div class="back">
-    <!-- <a href="{% url 'profile' %}" class="previous">&#171;</a> -->
-  </div>
+  <div class="back"></div>
   <div class="stored">
     <h3 class="title">Personal Vault</h3>
   </div>
@@ -58,6 +75,28 @@
     />
     <button class="btn btn-primary" type="submit">Search</button>
   </form>
+  <div style="position: absolute; margin-left: 47%">
+    <form action="" method="GET" class="sortForm">
+      <label
+        for="sort"
+        class="title"
+        style="padding-top: 30px; font-size: 1.2rem"
+        >Sort By :-
+      </label>
+      <select name="sort" id="sort">
+        <option selected disabled>Select :-</option>
+        <optgroup label="Description">
+          <option value="description_inc">in Ascending</option>
+          <option value="description_dec">in Descending</option>
+        </optgroup>
+        <optgroup label="Date Added">
+          <option value="date_inc">in Ascending</option>
+          <option value="date_dec">in Descending</option>
+        </optgroup>
+      </select>
+      <!-- <button type="submit" class="btn btn-primary"></button> -->
+    </form>
+  </div>
 </div>
 
 <div class="d-flex justify-content-center">

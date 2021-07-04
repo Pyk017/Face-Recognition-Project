@@ -16,7 +16,7 @@ class VaultListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(VaultListView, self).get_context_data(**kwargs)
-        context['data'] = context['data'].filter(user=self.request.user)[::-1]
+        context['data'] = context['data'].filter(user=self.request.user)
 
         search_input = self.request.GET.get('search-area') or ''
         if search_input:
@@ -30,7 +30,22 @@ class VaultListView(LoginRequiredMixin, ListView):
             content.fileUpload_name = self.get_filename(str(content.fileUpload))
             content.image_name = self.get_filename(str(content.image))
 
-            
+        
+
+        sort_data = self.request.GET.get('sort') or ''
+        print(self.request.GET, sort_data)
+        if sort_data:
+            if sort_data.startswith('description'):
+                if sort_data == 'description_inc':
+                    context['data'] = sorted(context['data'], key=lambda x: x.description)
+                else:
+                    context['data'] = sorted(context['data'], key=lambda x: x.description)[::-1]
+            else:
+                if sort_data == 'date_inc':
+                    context['data'] = sorted(context['data'], key=lambda x: x.date_created)
+                else:
+                    context['data'] = sorted(context['data'], key=lambda x: x.date_created)[::-1]
+        
 
         return context
 
