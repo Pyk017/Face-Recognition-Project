@@ -141,3 +141,4 @@ cython_debug/
 
 #data to store the images at the local storage
 data/
+media/
