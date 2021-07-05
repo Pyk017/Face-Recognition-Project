@@ -31,8 +31,11 @@ from Passwords.views import (   PasswordCreateView,
                                 PasswordDeleteView,
                             )
 
-from Vault import views as vault_views
-from Vault.views import VaultCreateView, VaultListView
+from Vault.views import (
+                            VaultCreateView, 
+                            VaultListView, 
+                            VaultDeleteView
+                        )
 
 
 
@@ -69,8 +72,9 @@ urlpatterns = [
 
     # Vault Application URLs    
     # path("personal-vault/",vault_views.home, name="vault"),
-    path("personal-vault/",VaultCreateView.as_view(), name="vault-upload"),
+    path("personal-vault-add/",VaultCreateView.as_view(), name="vault-upload"),
     path("personal-vault-list/",VaultListView.as_view(), name="vault-list"),
+    path("personal-vault-delete/<int:pk>/",VaultDeleteView.as_view(), name="vault-delete"),
 
     
 

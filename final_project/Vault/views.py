@@ -2,7 +2,7 @@ from django.db import reset_queries
 from django.shortcuts import render, redirect
 from .models import VaultData
 
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
@@ -76,4 +76,10 @@ class VaultCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+class VaultDeleteView(SuccessMessageMixin, LoginRequiredMixin, DeleteView):
+    model = VaultData
+    success_url = reverse_lazy("vault-list")
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
 

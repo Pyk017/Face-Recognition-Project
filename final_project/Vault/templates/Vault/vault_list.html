@@ -11,6 +11,7 @@
   .download {
     display: block;
     float: right;
+    margin-right: 10px;
   }
   #search::placeholder {
     color: black;
@@ -38,7 +39,9 @@
     text-align: center;
   }
   .filecontentname {
-    width: 100%;
+    width: 75%;
+    text-align: center;
+    margin-left: 50px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -136,28 +139,43 @@
         <td>{{ d.date_created.date }}</td>
         <td class="filecontent">
           <div class="filecontentname">
-            {{ d.fileUpload_name }}
-            <!-- <div class="icon"> -->
-            <a href="{{d.fileUpload.url}}" download="{{d.fileUpload_name}}"
-              ><img
-                src="{% static 'fr/download.png' %}"
-                class="download"
-                width="30"
-                height="30"
-            /></a>
-            <!-- </div> -->
+            <span>{{ d.fileUpload_name }}</span>
           </div>
+
+          <a
+            href="{% url 'vault-delete' d.id %}"
+            title="Delete"
+            id="deletedata"
+            data-object-id="{{ d.id }}"
+            onclick="return confirm('Do you want to delete the Data ? ')"
+            ><img
+              src="{% static 'fr/trashcan.png' %}"
+              class="download"
+              width="40"
+              height="40"
+          /></a>
+
+          <a
+            href="{{d.fileUpload.url}}"
+            download="{{d.fileUpload_name}}"
+            title="Download"
+            ><img
+              src="{% static 'fr/download.png' %}"
+              class="download"
+              width="40"
+              height="40"
+          /></a>
         </td>
         <td class="filecontent">
           <div>
             {{ d.image_name }}
             <!-- <div class="icon"> -->
-            <a href="{{d.image.url}}" download="{{d.image}}"
+            <a href="{{d.image.url}}" download="{{d.image}}" title="Download"
               ><img
                 src="{% static 'fr/download.png' %}"
                 class="download"
-                width="30"
-                height="30"
+                width="40"
+                height="40"
             /></a>
             <!-- </div> -->
           </div>
@@ -173,22 +191,4 @@
   <h2>Please Upload your files. We keep them safe.</h2>
 </div>
 
-{% endif %}
-
-<!-- {% if data %} {% for d in data %}
-<h3>{{d.description}} - {{d.date_created}}</h3>
-
-<a href="{{d.image.url}}" target="_blank"
-  ><img src="{{d.image.url}}" alt="image"
-/></a>
-{{d.fileUpload}} {% endfor %} {% else %}
-<h2>Please add some Content</h2>
-{% endif%}
-
-<div class="d-flex justify-content-center">
-  <a href="{% url 'vault-upload' %}"
-    ><button class="btn btn-primary">Upload</button></a
-  >
-</div> -->
-
-{% endblock content%}
+{% endif %} {% endblock content%}
