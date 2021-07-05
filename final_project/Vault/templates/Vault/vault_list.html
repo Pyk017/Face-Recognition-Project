@@ -34,6 +34,15 @@
     background-color: #9b27b0b9;
     color: white;
   }
+  .messages {
+    text-align: center;
+  }
+  .filecontentname {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 </style>
 
 <script>
@@ -75,7 +84,7 @@
     />
     <button class="btn btn-primary" type="submit">Search</button>
   </form>
-  <div style="position: absolute; margin-left: 47%">
+  <div style="position: absolute; margin-left: 40%">
     <form action="" method="GET" class="sortForm">
       <label
         for="sort"
@@ -86,18 +95,26 @@
       <select name="sort" id="sort">
         <option selected disabled>Select :-</option>
         <optgroup label="Description">
-          <option value="description_inc">in Ascending</option>
-          <option value="description_dec">in Descending</option>
+          <option value="description_inc">Dictionary Order</option>
+          <option value="description_dec">Reverse Dictionary Order</option>
         </optgroup>
         <optgroup label="Date Added">
-          <option value="date_inc">in Ascending</option>
-          <option value="date_dec">in Descending</option>
+          <option value="date_inc">Least Recently Added</option>
+          <option value="date_dec">Most Recently Added</option>
         </optgroup>
       </select>
       <!-- <button type="submit" class="btn btn-primary"></button> -->
     </form>
   </div>
 </div>
+
+{% if messages %}
+<div class="messages">
+  {% for message in messages %} {% if message.tags %}
+  <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+  {% endif %} {% endfor %}
+</div>
+{% endif %}
 
 <div class="d-flex justify-content-center">
   <table
@@ -118,7 +135,7 @@
         <th scope="row">{{ d.description|title }}</th>
         <td>{{ d.date_created.date }}</td>
         <td class="filecontent">
-          <div>
+          <div class="filecontentname">
             {{ d.fileUpload_name }}
             <!-- <div class="icon"> -->
             <a href="{{d.fileUpload.url}}" download="{{d.fileUpload_name}}"

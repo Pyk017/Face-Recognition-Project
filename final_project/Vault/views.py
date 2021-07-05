@@ -5,11 +5,15 @@ from .models import VaultData
 from django.views.generic import CreateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-# Create your views here.\
+
+# Message Mixins
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 
 
 
-class VaultListView(LoginRequiredMixin, ListView):
+
+class VaultListView(SuccessMessageMixin, LoginRequiredMixin, ListView):
     model = VaultData
     template_name = "Vault/vault_list.html"
     context_object_name = 'data'
@@ -37,15 +41,20 @@ class VaultListView(LoginRequiredMixin, ListView):
         if sort_data:
             if sort_data.startswith('description'):
                 if sort_data == 'description_inc':
+                    message = 'Description in Dictionary Order'
                     context['data'] = sorted(context['data'], key=lambda x: x.description)
                 else:
+                    message = 'Description in Reverse Dictionary Order'
                     context['data'] = sorted(context['data'], key=lambda x: x.description)[::-1]
             else:
                 if sort_data == 'date_inc':
+                    message = 'Least Recently Added'
                     context['data'] = sorted(context['data'], key=lambda x: x.date_created)
                 else:
+                    message = 'Most Recently Added'
                     context['data'] = sorted(context['data'], key=lambda x: x.date_created)[::-1]
         
+            messages.add_message(self.request, messages.SUCCESS, f'Successfully Sorted by - {message}')
 
         return context
 
@@ -54,12 +63,13 @@ class VaultListView(LoginRequiredMixin, ListView):
         return file.split('/')[-1]
 
 
-class VaultCreateView(LoginRequiredMixin, CreateView):
+class VaultCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     model = VaultData
     fields = ['image', 'fileUpload', 'description']
     template_name = 'Vault/vault_upload.html'
     context_object_name = 'data'
     success_url =  reverse_lazy("vault-list")
+    success_message = '%(description)s Added successfully'
 
     def form_valid(self, form):
         form.instance.user = self.request.user

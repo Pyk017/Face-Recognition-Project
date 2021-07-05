@@ -1,11 +1,12 @@
 from django.conf.urls import url
-from django.http import request, HttpResponse
+from django.http import request, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-# from fr.models import userdata
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 
 from .models import PasswordData
 from fr.AES_OOP import AES
@@ -70,12 +71,13 @@ class PasswordDetailView(LoginRequiredMixin, DetailView):
 
 
 
-class PasswordCreateView(LoginRequiredMixin,CreateView):
+class PasswordCreateView(SuccessMessageMixin, LoginRequiredMixin,CreateView):
     model = PasswordData
     fields = ['site_name', 'user_id', 'password', 'link']
     template_name = 'Passwords/add_new_password.html'
     success_url = reverse_lazy('passwords-list')
     context_object_name = 'data'
+    success_message = 'Password of %(user_id)s Added Successfully! '
 
     def form_valid(self,form):
         form.instance.author=self.request.user
@@ -104,11 +106,12 @@ class PasswordCreateView(LoginRequiredMixin,CreateView):
 
 
 
-class PasswordUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
+class PasswordUpdateView(SuccessMessageMixin, LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = PasswordData
     fields = ['site_name', 'user_id', 'password', 'link']
     success_url = reverse_lazy('passwords-list')
     template_name = "Passwords/password_update.html"
+    success_message = 'Password Data of %(user_id)s Updated Successfully! '
     def form_valid(self,form):
         form.instance.author=self.request.user
         form_data = form.cleaned_data
@@ -143,6 +146,15 @@ class PasswordDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     model = PasswordData
     success_url = reverse_lazy('passwords-list')
     template_name = 'Passwords/password_delete_confirmation.html'
+    
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        
+        messages.add_message(self.request, messages.WARNING, f"Password Details of {self.object} Deleted Successfully!")
+        return HttpResponseRedirect(success_url)
+
 
     def test_func(self):
         data=self.get_object()
